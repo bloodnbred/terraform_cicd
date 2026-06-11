@@ -1,0 +1,46 @@
+name: Terraform Lint
+
+# Run this workflow when a Pull Request targets main
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout repository code
+      - uses: actions/checkout@v4
+
+      # Step 2: Install Terraform
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.7.0"
+
+      # Step 3: Check Terraform formatting
+      - name: Check Formatting
+        run: terraform fmt -check -recursive
+
+      # Exits with code 1 if any file is not in canonical format
+      # This FAILS the job and can block the PR
+
+      # Step 4: Validate Terraform syntax
+      - name: Validate Syntax
+        run: |
+          terraform init -backend=false
+          terraform validate
+
+      # -backend=false skips remote state initialization
+      # Useful for linting and validation pipelines
+
+      # Step 5: Install TFLint
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v4
+
+      # Step 6: Run TFLint
+      - name: Run TFLint
+        run: |
+          tflint --init
+          tflint --recursive
