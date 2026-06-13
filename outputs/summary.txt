@@ -1,0 +1,21 @@
+Terraform Hands-On Practice Configuration
+==========================================
+    
+Project Name: hands-on
+Environment: dev
+Instance Count: 3
+Monitoring Enabled: true
+    
+Resources Created:
+- 3 instance configuration files
+- 1 summary file
+    
+Instance IDs Generated:
+- instance-1: 1720a48b
+    - instance-2: 88e08ce2
+    - instance-3: 8e405783
+    
+Directory: ./outputs
+    
+This is a local demonstration of Terraform without cloud provider dependencies.
+All "resources" are stored as local files for learning and practice.
